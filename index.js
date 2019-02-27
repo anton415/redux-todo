@@ -49,6 +49,21 @@ function todos (state = [], action) {
   }
 }
 
+// Second reducer.
+function goals (state = [], action) {
+  switch (action.type) {
+    case 'ADD_GOAL':
+      return state.concat([action.goal])
+    case 'REMOVE_GOAL':
+      return state.filter((goal) => goal.id !== action.id)
+    case 'TOGGLE_GOAL':
+      return state.map((goal) => goal.id !== action.id ? goal :
+        Object.assign({}, goal, { complete: !goal.complete }))
+    default:
+      return state
+  }
+}
+
 const store = createStore(todos)
 store.subscribe(() => {
   console.log('The new state is: ', store.getState())
