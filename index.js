@@ -41,6 +41,42 @@ const ADD_GOAL = 'ADD_GOAL'
 const REMOVE_GOAL = 'REMOVE_GOAL'
 const TOGGLE_GOAL = 'TOGGLE_GOAL'
 
+// Action creators. Because this create actions.
+function addTodoAction (todo) {
+  return {
+    type: ADD_TODO,
+    todo
+  }
+}
+
+function removeTodoAction (id) {
+  return {
+    type: REMOVE_TODO,
+    id
+  }
+}
+
+function toggleTodoAction (id) {
+  return {
+    type: TOGGLE_TODO,
+    id
+  }
+}
+
+function addGoalAction (goal) {
+  return {
+    type: ADD_GOAL,
+    goal
+  }
+}
+
+function removeGoalAction (id) {
+  return {
+    type: REMOVE_GOAL,
+    id
+  }
+}
+
 // Reducer. Pure function.
 function todos (state = [], action) {
   switch (action.type) {
@@ -63,9 +99,6 @@ function goals (state = [], action) {
       return state.concat([action.goal])
     case REMOVE_GOAL:
       return state.filter((goal) => goal.id !== action.id)
-    case TOGGLE_GOAL:
-      return state.map((goal) => goal.id !== action.id ? goal :
-        Object.assign({}, goal, { complete: !goal.complete }))
     default:
       return state
   }
@@ -85,11 +118,8 @@ store.subscribe(() => {
   console.log('The new state is: ', store.getState())
 })
 
-store.dispatch({
-  type: ADD_TODO,
-  todo: {
-    id: 0,
-    name: 'Learn Redux',
-    complete: false
-  }
-})
+store.dispatch(addTodoAction({
+  id: 0,
+  name: 'Learn Redux',
+  complete: false
+}))
