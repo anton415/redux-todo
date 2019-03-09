@@ -8,6 +8,7 @@
   <script src='https://unpkg.com/babel-standalone@6.15.0/babel.min.js'></script>
   <script src='https://tylermcginnis.com/goals-todos-api/index.js'></script>
   <script src='https://unpkg.com/redux-thunk@2.2.0/dist/redux-thunk.min.js'></script>
+  <script src='https://unpkg.com/react-redux@5.0.6/dist/react-redux.min.js'></script>
 </head>
 <body>
   <div id='app'></div>
@@ -239,11 +240,9 @@
         )
       }
     }
-
-    const ConnectedTodos = connect((state) => {
+    const ConnectedTodos = ReactRedux.connect((state) => ({
       todos: state.todos
-    })(Todos)
-
+    }))(Todos)
     class Goals extends React.Component {
       addItem = (e) => {
         e.preventDefault()
@@ -273,15 +272,12 @@
         )
       }
     }
-
-    const ConnectedGoals = connect((state) => {
+    const ConnectedGoals = ReactRedux.connect((state) => ({
       goals: state.goals
-    })(Goals)
-
+    }))(Goals)
     class App extends React.Component {
       componentDidMount () {
         const { dispatch } = this.props
-
         dispatch(handleInitialData())
       }
       render() {
@@ -296,26 +292,13 @@
         )
       }
     }
-
-    const ConnectedApp = connect((state) => ({
-      loading: state.loaging
+    const ConnectedApp = ReactRedux.connect((state) => ({
+      loading: state.loading
     }))(App)
-
-    const Context = React.createContext()
-
-    class Provider extends React.Component {
-      render () {
-        return (
-          <Context.Provider value={this.props.store}>
-            {this.props.children}
-          </Context.Provider>
-        )
-      }
-    }
     ReactDOM.render(
-      <Provider store={store}>
+      <ReactRedux.Provider store={store}>
         <ConnectedApp />
-      </Provider>,
+      </ReactRedux.Provider>,
       document.getElementById('app')
     )
   </script>
